@@ -69,6 +69,18 @@ class LinksController < ApplicationController
     @link = current_user.links.find_by(id: params[:id])
     redirect_to links_path, notice: "Not authorized to edit this link"
   end
+  
+  def upvote
+    @link = Link.find(params[:id])
+    @link.upvote_by current_user
+    redirect_to :back
+  end
+  
+  def downvote
+    @link = Link.find(params[:id])
+    @link.downvote_by current_user
+    redirect to :back
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
