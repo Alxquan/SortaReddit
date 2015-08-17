@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   
 
   resources :links do
+    
     member do
-      put "like", to: "links#upvote"
-      put "dislike", to: "links#downvote"
+      get "like", :like_link_path
+      get "dislike", :dislike_link_path
     end
   resources :comments
   end

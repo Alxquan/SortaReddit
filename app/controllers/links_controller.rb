@@ -8,24 +8,24 @@ class LinksController < ApplicationController
   def index
     @links = Link.all
   end
+  
 
   # GET /links/1
   # GET /links/1.json
   def show
-    
+    @link = Link.find(params[:id])
   end
 
-  # GET /links/new
+
   def new
     @link = current_user.links.build
   end
 
-  # GET /links/1/edit
+ 
   def edit
   end
 
-  # POST /links
-  # POST /links.json
+ 
   def create
     @link = current_user.links.build(link_params)
 
@@ -40,8 +40,7 @@ class LinksController < ApplicationController
     end
   end
 
-  # PATCH/PUT /links/1
-  # PATCH/PUT /links/1.json
+
   def update
     respond_to do |format|
       if @link.update(link_params)
@@ -64,20 +63,20 @@ class LinksController < ApplicationController
     end
   end
 
-  def upvote
+  def like
     @link = Link.find(params[:id])
     @link.upvote_by current_user
     redirect_to :back
   end
 
-  def downvote
+  def dislike
     @link = Link.find(params[:id])
-    @link.downvote_from current_user
+    @link.downvote_by current_user
     redirect_to :back
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+   
     def set_link
       @link = Link.find(params[:id])
     end
@@ -87,7 +86,7 @@ class LinksController < ApplicationController
       redirect_to links_path, notice: "Not authorized to edit this link" if @link.nil?
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    
     def link_params
       params.require(:link).permit(:title, :url)
     end
